@@ -1,9 +1,25 @@
-<div>
-    <app-header></app-header>
+<div class="main-container">
+    <mat-sidenav-container class="sidenav-container">
+        <mat-sidenav #sidenav mode="push" [(opened)]="opened">
+            Sidenav contentss
+        </mat-sidenav>
+    
+        <mat-sidenav-content>
+            <div class="navbar">
+                <div class="navbar-mobile" fxHide.gt-xs>
+                    <button mat-icon-button (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
+                </div>
+                <div class="title">
+                    Okmányiroda
+                </div>
+                <app-navbar></app-navbar>
+            </div>
+            <router-outlet />
+            <!-- <div>
+                <app-footer></app-footer>
+            </div> -->
+        </mat-sidenav-content>
+    </mat-sidenav-container>
 </div>
 
-<router-outlet />
 
-<div>
-    <app-footer></app-footer>
-</div>
