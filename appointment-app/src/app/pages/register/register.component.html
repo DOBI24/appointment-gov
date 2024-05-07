@@ -1,0 +1,33 @@
+<div>
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>Regisztráció</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <mat-form-field>
+                    <mat-label>Teljes név</mat-label>
+                    <input matInput type="text" formControlName="fullName">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Jelszó</mat-label>
+                    <input matInput type="password" formControlName="password">
+                    @if (registerForm.get('password')?.hasError('minlength') && !registerForm.get('password')?.hasError('required')) {
+                        <mat-error>Minimum 8 karakternek kell lennie</mat-error>
+                    }
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>E-mail cím</mat-label>
+                    <input matInput type="email" formControlName="email">
+                    @if (registerForm.get('email')?.hasError('email') && !registerForm.get('email')?.hasError('required')) {
+                        <mat-error>Adj meg szabályos email címet</mat-error>
+                    }
+                </mat-form-field>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-raised-button color="primary" type="submit">Regisztráció</button>
+                <button mat-raised-button color="primary" type="button" (click)="goBack()">Vissza</button>
+            </mat-card-actions>
+        </mat-card>
+    </form>
+</div>

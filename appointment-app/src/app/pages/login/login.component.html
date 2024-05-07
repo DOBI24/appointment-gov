@@ -8,10 +8,6 @@
             </mat-card-header>
             <mat-card-content>
                 <mat-form-field>
-                    <mat-label>Teljes név</mat-label>
-                    <input matInput formControlName="fullName">
-                </mat-form-field>
-                <mat-form-field>
                     <mat-label>Email</mat-label>
                     <input matInput formControlName="email" type="email" [errorStateMatcher]="emailError">
                     @if (loginForm.get('email')?.hasError('email') && !loginForm.get('email')?.hasError('required')) {
@@ -20,7 +16,7 @@
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>Jelszó</mat-label>
-                    <input matInput formControlName="password" matNativeControl type="password" [errorStateMatcher]="passwordError">
+                    <input matInput formControlName="password" type="password" [errorStateMatcher]="passwordError">
                     @if (loginForm.get('password')?.hasError('minlength') && !loginForm.get('password')?.hasError('required')) {
                         <mat-error>Minimum 8 karakternek kell lennie</mat-error>
                     }
@@ -29,6 +25,9 @@
             <mat-card-actions>
                 <button mat-raised-button color="primary" type="submit">Login</button>
             </mat-card-actions>
+            <mat-card-footer>
+                <button mat-raised-button color="primary" type="button" (click)="goRegister()">Regisztráció</button>
+            </mat-card-footer>
         </mat-card>
     </form>
 </div>

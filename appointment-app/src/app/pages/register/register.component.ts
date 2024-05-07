@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { ReactiveFormsModule, FormsModule, Validators, FormControl, FormGroupDirective, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { User } from '../../shared/model/user';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { Location } from '@angular/common';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { Router } from '@angular/router';
 
 export class EmailError implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | null): boolean {
@@ -22,7 +23,7 @@ export class PasswordError implements ErrorStateMatcher{
 }
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-register',
   standalone: true,
   imports: [
     ReactiveFormsModule,
@@ -32,27 +33,39 @@ export class PasswordError implements ErrorStateMatcher{
     MatInputModule,
     MatButtonModule,
   ],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  templateUrl: './register.component.html',
+  styleUrl: './register.component.scss'
 })
-export class LoginComponent {
+
+export class RegisterComponent {
   emailError = new EmailError();
   passwordError = new PasswordError();
-  
-  constructor(private router : Router) { }
 
-  loginForm = new FormGroup({
-    email : new FormControl('', [Validators.required, Validators.email]),
-    password : new FormControl('', [Validators.required, Validators.minLength(8)]),
-  })
+  constructor(private formBuilder: FormBuilder, private location : Location) { }
 
-  login() {
-    if (this.loginForm.invalid) return;
-    
-    console.log(this.loginForm.value);
+  registerForm = this.createForm(
+    {
+      fullName: '',
+      email: '',
+      password: ''
+    }
+  )
+
+  createForm(model: User) {
+    let formGroup = this.formBuilder.group(model);
+    formGroup.get('fullName')?.addValidators([Validators.required, Validators.pattern("[A-Za-z]+ [A-Za-z ]+")])
+    formGroup.get('email')?.addValidators([Validators.required, Validators.email])
+    formGroup.get('password')?.addValidators([Validators.required, Validators.minLength(8)])
+    return formGroup;
   }
 
-  goRegister() {
-    this.router.navigateByUrl('/register');
+  register() {
+    if (this.registerForm.invalid) return;
+
+    console.log(this.registerForm.value);
+  }
+
+  goBack() {
+    this.location.back();
   }
 }
