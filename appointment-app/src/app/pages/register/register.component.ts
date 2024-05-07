@@ -8,14 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { Location } from '@angular/common';
 import { ErrorStateMatcher } from '@angular/material/core';
 
-export class EmailError implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | null): boolean {
-    const isSubmitted = form?.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
-
-export class PasswordError implements ErrorStateMatcher{
+export class ErrorMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | null): boolean {
     const isSubmitted = form?.submitted;
     return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
@@ -38,8 +31,8 @@ export class PasswordError implements ErrorStateMatcher{
 })
 
 export class RegisterComponent {
-  emailError = new EmailError();
-  passwordError = new PasswordError();
+  emailError = new ErrorMatcher();
+  passwordError = new ErrorMatcher();
 
   constructor(private formBuilder: FormBuilder, private location : Location) { }
 

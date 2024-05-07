@@ -7,14 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
 
-export class EmailError implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | null): boolean {
-    const isSubmitted = form?.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
-
-export class PasswordError implements ErrorStateMatcher{
+export class ErrorMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | null): boolean {
     const isSubmitted = form?.submitted;
     return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
@@ -36,8 +29,8 @@ export class PasswordError implements ErrorStateMatcher{
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  emailError = new EmailError();
-  passwordError = new PasswordError();
+  emailError = new ErrorMatcher();
+  passwordError = new ErrorMatcher();
   
   constructor(private router : Router) { }
 
