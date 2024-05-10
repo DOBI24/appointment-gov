@@ -1,6 +1,6 @@
-ul{
-    list-style: none;
-    margin: 0;
+.nav-item{
     display: flex;
-    gap: 30px;
+    margin: 20px;
+    justify-content:space-between;
+    align-items: center;
 }

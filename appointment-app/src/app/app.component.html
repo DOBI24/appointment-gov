@@ -1,18 +1,21 @@
 <div class="main-container">
     <mat-sidenav-container class="sidenav-container">
-        <mat-sidenav #sidenav mode="push" [(opened)]="opened">
-            Sidenav contentss
+        <mat-sidenav #sidenav mode="side" disableClose="true" opened="true" class="asd">
+            <div class="navbar">
+                <app-navbar></app-navbar> <!--  TODO: input es output -->
+            </div>
         </mat-sidenav>
     
         <mat-sidenav-content>
-            <div class="navbar">
-                <div class="navbar-mobile" fxHide.gt-xs>
-                    <button mat-icon-button (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
-                </div>
-                <div class="title">
-                    Okmányiroda
-                </div>
-                <app-navbar></app-navbar>
+            <div class="navbar-mobile">
+                <button mat-icon-button (click)="open = !open">
+                    @if (open) {
+                        <mat-icon>arrow_back_ios</mat-icon>
+                    }
+                    @else {
+                        <mat-icon>arrow_forward_ios</mat-icon>
+                    }
+                </button>
             </div>
             <router-outlet />
             <!-- <div>
@@ -21,5 +24,3 @@
         </mat-sidenav-content>
     </mat-sidenav-container>
 </div>
-
-
