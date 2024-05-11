@@ -1,22 +1,20 @@
 <div class="main-container">
     <mat-sidenav-container class="sidenav-container">
-        <mat-sidenav #sidenav mode="side" disableClose="true" opened="true" class="asd">
+        <mat-sidenav #sidenav mode="side" disableClose="true" opened="true" class="sidenav-list" [ngStyle]="{'width': sidenavWidth}">
             <div class="navbar">
                 <app-navbar></app-navbar> <!--  TODO: input es output -->
             </div>
+            <button mat-icon-button (click)="open = !open" class="toggle-button" [ngStyle]="{'position': toggleButtonLeft}">
+                @if (open) {
+                    <mat-icon>arrow_back_ios</mat-icon>
+                }
+                @else {
+                    <mat-icon>arrow_forward_ios</mat-icon>
+                }
+            </button>
         </mat-sidenav>
     
-        <mat-sidenav-content>
-            <div class="navbar-mobile">
-                <button mat-icon-button (click)="open = !open">
-                    @if (open) {
-                        <mat-icon>arrow_back_ios</mat-icon>
-                    }
-                    @else {
-                        <mat-icon>arrow_forward_ios</mat-icon>
-                    }
-                </button>
-            </div>
+        <mat-sidenav-content class="sidenav-content">
             <router-outlet />
             <!-- <div>
                 <app-footer></app-footer>

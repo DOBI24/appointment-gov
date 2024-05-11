@@ -27,4 +27,6 @@ import { FlexLayoutServerModule } from '@angular/flex-layout/server';
 export class AppComponent {
   title = 'appointment-app';
   open: boolean = false;
+  toggleButtonLeft = this.open ? "11.5vw" : "2vw";
+  sidenavWidth = "13vw";
 }

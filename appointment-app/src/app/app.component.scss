@@ -3,6 +3,10 @@
     width: 100vw;
 }
 
+.sidenav-content{
+    padding: 2%;
+}
+
 // .navbar{
 //     background-color: darkblue;
 //     margin: 0;
@@ -11,6 +15,14 @@
 //     align-items: center;
 // }
 
-.asd{
-    width: 10%;
+.sidenav-list{
+    // width: 3.5vw;
+    overflow: visible!important;
+}
+
+.toggle-button{
+    position: absolute;
+    left: 11.5vw;
+    top: 5px;
+    background-color: aqua;
 }
