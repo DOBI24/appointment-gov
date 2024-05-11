@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "dobi-appointment-app": {
+      "hosting": {
+        "appointment-app": [
+          "dobi-appointment-app"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "dobi-appointment-app"
+  }
+}
