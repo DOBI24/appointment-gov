@@ -6,6 +6,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../shared/services/auth.service';
+
 
 export class ErrorMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | null): boolean {
@@ -32,7 +34,7 @@ export class LoginComponent {
   emailError = new ErrorMatcher();
   passwordError = new ErrorMatcher();
   
-  constructor(private router : Router) { }
+  constructor(private router : Router, private authService : AuthService) { }
 
   loginForm = new FormGroup({
     email : new FormControl('', [Validators.required, Validators.email]),
@@ -42,7 +44,12 @@ export class LoginComponent {
   login() {
     if (this.loginForm.invalid) return;
     
-    console.log(this.loginForm.value);
+    this.authService.loginWithEmailPassword(this.loginForm.get("email")?.value, this.loginForm.get("password")?.value)
+      .then((cred) => {
+        console.log(cred);
+      }).catch(err => {
+        console.log(err);
+      })
   }
 
   goRegister() {
