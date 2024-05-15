@@ -17,6 +17,17 @@
         }
         <mat-icon matListItemIcon>login</mat-icon>
     </mat-list-item>
+    @if(this.user){
+        <mat-list-item routerLink="/book" routerLinkActive="active" ariaCurrentWhenActive="page">
+            @if(true){
+                <span matListItemTitle>Időpontfoglalás</span>
+            }
+            @else{
+                
+            }
+            <mat-icon matListItemIcon>book_online</mat-icon>
+        </mat-list-item>
+    }
 </mat-nav-list>
 
 <!-- <div>

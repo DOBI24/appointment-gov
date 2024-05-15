@@ -4,12 +4,13 @@ import { MainComponent } from './pages/main/main.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { BookComponent } from './pages/book/book.component';
+import { authGuard } from './shared/services/auth.guard';
 
 export const routes: Routes = [
     { path: 'main', component: MainComponent },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
-    { path: 'book', component: BookComponent },
+    { path: 'book', component: BookComponent, canActivate: [authGuard] },
     { path: '',   redirectTo: '/main', pathMatch: 'full' },
     { path: '**', component: PageNotFoundComponent }
 ];

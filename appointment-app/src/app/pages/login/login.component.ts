@@ -53,6 +53,7 @@ export class LoginComponent {
   }
 
   goRegister() {
-    this.router.navigateByUrl('/register');
+    this.authService.logout();
+    // this.router.navigateByUrl('/register');
   }
 }

@@ -1,8 +1,8 @@
 <div class="main-container">
     <mat-sidenav-container class="sidenav-container">
-        <mat-sidenav #sidenav mode="side" disableClose="true" opened="true" class="sidenav-list" [ngStyle]="{'width': sidenavWidth}">
+        <mat-sidenav #sidenav mode="side" disableClose="true" opened="true" class="sidenav-list">
             <div class="navbar">
-                <app-navbar></app-navbar> <!--  TODO: input es output -->
+                <app-navbar [user] = "user"></app-navbar>
             </div>
             <button mat-icon-button (click)="open = !open" class="toggle-button" [ngStyle]="{'position': toggleButtonLeft}">
                 @if (open) {
