@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormGroupDirective, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { User } from '../../shared/model/user';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,6 +8,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { Location } from '@angular/common';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { AuthService } from '../../shared/services/auth.service';
+import { UserService } from '../../shared/services/user.service';
+import { Router } from '@angular/router';
+import { Case } from '../../shared/model/case';
 
 export class ErrorMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | null): boolean {
@@ -35,34 +38,35 @@ export class RegisterComponent {
   emailError = new ErrorMatcher();
   passwordError = new ErrorMatcher();
 
-  constructor(private formBuilder: FormBuilder, private location : Location, private auth : AuthService) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private location : Location,
+    private auth : AuthService,
+    private userService: UserService,
+    private router : Router,
+  ) {}
 
-  registerForm = this.createForm(
-    {
-      fullName: '',
-      email: '',
-      password: ''
-    }
-  )
-
-  createForm(model: User) {
-    let formGroup = this.formBuilder.group(model);
-    formGroup.get('fullName')?.addValidators([Validators.required, Validators.pattern("[A-Za-z]+ [A-Za-z ]+")])
-    formGroup.get('email')?.addValidators([Validators.required, Validators.email])
-    formGroup.get('password')?.addValidators([Validators.required, Validators.minLength(8)])
-    return formGroup;
-  }
+  registerForm = new FormGroup({
+    fullName : new FormControl('', [Validators.required, Validators.pattern("[A-Za-z]+ [A-Za-z ]+")]),
+    email : new FormControl('', [Validators.required, Validators.email]),
+    password : new FormControl('', [Validators.required, Validators.minLength(8)]),
+  })
 
   register() {
     if (this.registerForm.invalid) return;
 
-    this.auth.register(this.registerForm.value.fullName ?? '', this.registerForm.value.email ?? '', this.registerForm.value.password ?? '')
+    this.auth.register(this.registerForm.value.email as string, this.registerForm.value.password as string)
       .then(cred => {
-        this.auth.loginWithEmailPassword(this.registerForm.value.email, this.registerForm.value.password).then(cred => {
-          this.goBack();
-        }).catch(err => {
-          console.log(err);
+        const user: User = {
+          id: cred.user?.uid as string,
+          fullName: this.registerForm.value.fullName as string,
+          email: this.registerForm.value.email as string,
+          role: 'user'
+        }
+        this.userService.insertNewUser(user).then(_ => {
+          this.router.navigateByUrl("/main")
         });
+
       }).catch(err => {
         console.log(err);
       });

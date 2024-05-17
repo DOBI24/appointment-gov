@@ -44,7 +44,7 @@ export class LoginComponent {
   login() {
     if (this.loginForm.invalid) return;
     
-    this.authService.loginWithEmailPassword(this.loginForm.get("email")?.value, this.loginForm.get("password")?.value)
+    this.authService.loginWithEmailPassword(this.loginForm.get("email")?.value as string, this.loginForm.get("password")?.value as string)
       .then((cred) => {
         console.log(cred);
       }).catch(err => {
@@ -53,7 +53,6 @@ export class LoginComponent {
   }
 
   goRegister() {
-    this.authService.logout();
-    // this.router.navigateByUrl('/register');
+    this.router.navigateByUrl('/register');
   }
 }

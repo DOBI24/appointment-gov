@@ -27,6 +27,15 @@
             }
             <mat-icon matListItemIcon>book_online</mat-icon>
         </mat-list-item>
+        <mat-list-item (click)="logout()">
+            @if(true){
+                <span matListItemTitle>Kijelentkezés</span>
+            }
+            @else{
+                
+            }
+            <mat-icon matListItemIcon>logout</mat-icon>
+        </mat-list-item>
     }
 </mat-nav-list>
 

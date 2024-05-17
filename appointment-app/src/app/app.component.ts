@@ -39,11 +39,11 @@ export class AppComponent implements OnInit{
     this.auth.loggedInUser().subscribe({
       next: user => {
         this.auth.user = user;
-        this.user = user;        
+        this.user = user;
       },
       error: err => {
         this.auth.user = null;
-        this.user = null;        
+        this.user = null;
       }
     });
   }
