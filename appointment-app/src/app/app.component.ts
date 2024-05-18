@@ -10,6 +10,8 @@ import { FlexLayoutServerModule } from '@angular/flex-layout/server';
 import { AuthService } from './shared/services/auth.service';
 import { CalendarComponent } from './shared/components/calendar/calendar.component';
 import { Subscription } from 'rxjs';
+import { User } from './shared/model/user';
+import { UserService } from './shared/services/user.service';
 
 @Component({
     selector: 'app-root',
@@ -33,16 +35,15 @@ export class AppComponent implements OnInit, OnDestroy{
   open: boolean = false;
   toggleButtonLeft = this.open ? "11.5vw" : "2vw";
   sidenavWidth = "13vw";
-  user?: firebase.default.User | null;
+  user?: User | null;
   userSubscription: Subscription;
 
-  constructor(private auth: AuthService){}
+  constructor(private auth: AuthService, private userService: UserService){}
 
   ngOnInit(): void {
     this.userSubscription = this.auth.loggedInUser().subscribe({
       next: user => {
-        this.auth.user = user;
-        this.user = user;
+        this.createUserModel(user);
       },
       error: err => {
         this.auth.user = null;
@@ -53,4 +54,31 @@ export class AppComponent implements OnInit, OnDestroy{
   ngOnDestroy(): void {
     this.userSubscription.unsubscribe();
   }
+  
+  createUserModel(user: firebase.default.User | null) {
+    if (user == null){
+      this.user = null;
+      this.auth.user = null;  
+      return;
+    }
+
+    const modelSub = this.userService.getUserByID(user.uid).subscribe({
+      next: user => {
+        const tempUser = {
+          id: user.get("id"),
+          fullName: user.get("fullName"),
+          email: user.get("email"),
+          role: user.get("role")
+        }
+        this.user = tempUser;
+        this.auth.user = tempUser;  
+        modelSub.unsubscribe();
+      },
+      error: err => {
+        this.user = null;
+        modelSub.unsubscribe();
+      }
+    })
+  }
 }
+
