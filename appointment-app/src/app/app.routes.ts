@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './shared/services/auth.guard';
+import { adminGuard } from './shared/services/admin.guard';
 
 export const routes: Routes = [
     {
@@ -18,6 +19,11 @@ export const routes: Routes = [
         path: 'book',
         loadComponent: () => import('./pages/book/book.component').then(m => m.BookComponent),
         canActivate: [authGuard]
+    },
+    {
+        path: 'admin',
+        loadComponent: () => import('./pages/admin/admin.component').then(m => m.AdminComponent),
+        canActivate: [adminGuard]
     },
     {
         path: '',
