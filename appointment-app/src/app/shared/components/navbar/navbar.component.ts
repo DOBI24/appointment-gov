@@ -14,7 +14,6 @@ import { User } from '../../model/user';
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
-  // @Input() user?: firebase.default.User | null;
   @Input() user?: User | null;
 
   constructor(private authService: AuthService, private router : Router) {}
