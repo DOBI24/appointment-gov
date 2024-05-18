@@ -1,16 +1,31 @@
 import { Routes } from '@angular/router';
-import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
-import { MainComponent } from './pages/main/main.component';
-import { LoginComponent } from './pages/login/login.component';
-import { RegisterComponent } from './pages/register/register.component';
-import { BookComponent } from './pages/book/book.component';
 import { authGuard } from './shared/services/auth.guard';
 
 export const routes: Routes = [
-    { path: 'main', component: MainComponent },
-    { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent },
-    { path: 'book', component: BookComponent, canActivate: [authGuard] },
-    { path: '',   redirectTo: '/main', pathMatch: 'full' },
-    { path: '**', component: PageNotFoundComponent }
+    {
+        path: 'main',
+        loadComponent: () => import('./pages/main/main.component').then(m => m.MainComponent)
+    },
+    {
+        path: 'login',
+        loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent)
+    },
+    {
+        path:'register',
+        loadComponent: () => import('./pages/register/register.component').then(m => m.RegisterComponent)
+    },
+    {
+        path: 'book',
+        loadComponent: () => import('./pages/book/book.component').then(m => m.BookComponent),
+        canActivate: [authGuard]
+    },
+    {
+        path: '',
+        redirectTo: '/main',
+        pathMatch: 'full'
+    },
+    {
+        path: '**',
+        loadComponent: () => import('./pages/page-not-found/page-not-found.component').then(m => m.PageNotFoundComponent)
+    }
 ];
