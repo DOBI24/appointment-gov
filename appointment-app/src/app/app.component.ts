@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FooterComponent } from "./shared/components/footer/footer.component";
 import { NavbarComponent } from "./shared/components/navbar/navbar.component";
@@ -8,7 +8,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FlexLayoutServerModule } from '@angular/flex-layout/server';
 import { AuthService } from './shared/services/auth.service';
-
+import { CalendarComponent } from './shared/components/calendar/calendar.component';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-root',
@@ -24,19 +25,21 @@ import { AuthService } from './shared/services/auth.service';
         MatIconModule,
         FlexLayoutModule,
         FlexLayoutServerModule,
+        CalendarComponent
     ]
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit, OnDestroy{
   title = 'appointment-app';
   open: boolean = false;
   toggleButtonLeft = this.open ? "11.5vw" : "2vw";
   sidenavWidth = "13vw";
   user?: firebase.default.User | null;
+  userSubscription: Subscription;
 
   constructor(private auth: AuthService){}
 
   ngOnInit(): void {
-    this.auth.loggedInUser().subscribe({
+    this.userSubscription = this.auth.loggedInUser().subscribe({
       next: user => {
         this.auth.user = user;
         this.user = user;
@@ -46,5 +49,8 @@ export class AppComponent implements OnInit{
         this.user = null;
       }
     });
+  }
+  ngOnDestroy(): void {
+    this.userSubscription.unsubscribe();
   }
 }
