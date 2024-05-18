@@ -1,7 +1,9 @@
+import { Timestamp } from "@angular/fire/firestore";
 import { Case } from "./case";
 
 export interface Appointment{
+    id: string;
     name : string,
-    date : Date;
     case : Case;
+    date : Timestamp;
 }
