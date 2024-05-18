@@ -1,35 +1,30 @@
 <mat-stepper orientation="vertical" #stepper>
-    <mat-step [stepControl]="basicFormGroup">
+    <mat-step>
         <form [formGroup]="basicFormGroup">
-            <ng-template matStepLabel>Fill out your name</ng-template>
+            <ng-template matStepLabel>Add meg az adataidat</ng-template>
             <mat-form-field>
                 <mat-label>Név</mat-label>
-                <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
+                <input matInput formControlName="name" required>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Válassz ügyet</mat-label>
+                <mat-select formControlName="case">
+                    @for (item of cases; track $index) {
+                        <mat-option [value]="item.name">{{item.name}}</mat-option>
+                    }
+                </mat-select>
             </mat-form-field>
             <div>
-                <button mat-button matStepperNext>Next</button>
+                <button mat-button matStepperNext>Következő</button>
             </div>
         </form>
     </mat-step>
-    <!-- <mat-step [stepControl]="dateFormGroup">
-        <form [formGroup]="dateFormGroup">
-            <ng-template matStepLabel>Fill out your address</ng-template>
-            <mat-form-field>
-                <mat-label>Address</mat-label>
-                <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY" required>
-            </mat-form-field>
-            <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button matStepperNext>Next</button>
-            </div>
-        </form>
-    </mat-step> -->
     <mat-step>
-        <ng-template matStepLabel>Done</ng-template>
-        <p>You are now done.</p>
+        <ng-template matStepLabel>Add meg az időpontot</ng-template>
+            <app-calendar (selectedTimestamp)="changeSelectedTimestamp($event)"></app-calendar>
         <div>
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button (click)="stepper.reset()">Reset</button>
+            <button mat-button matStepperPrevious>Vissza</button>
+            <button mat-button (click)="bookAppointment()">Foglalás</button>
         </div>
     </mat-step>
 </mat-stepper>
