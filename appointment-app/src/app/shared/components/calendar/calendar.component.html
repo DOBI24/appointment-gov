@@ -21,7 +21,11 @@
                                 <button mat-button color="warn" class="time-button" type="button" disabled>{{time | timeFormat}}</button>
                             }
                             @else {
-                                <button mat-button class="time-button" type="button" [ngStyle]="{'background-color': selectedDay == day.toDateString()+'-'+time ? 'rgba(100, 255, 100, 0.2)' : ''}" (click)="selectDate(day.toDateString(), time)">
+                                <button 
+                                    mat-button class="time-button"
+                                    type="button"
+                                    [ngClass]="selectedDay == day.toDateString()+'-'+time ? 'time-button-selected' : ''"
+                                    (click)="selectDate(day.toDateString(), time)">
                                     {{time | timeFormat}}
                                 </button>
                             }
