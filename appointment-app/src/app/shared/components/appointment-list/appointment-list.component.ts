@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Appointment } from '../../model/appointment';
 import { Subscription } from 'rxjs';
 import { AppointmentService } from '../../services/appointment.service';
@@ -15,6 +15,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { Case } from '../../model/case';
 import { CaseService } from '../../services/case.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 
 @Component({
@@ -29,7 +30,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatButtonModule,
     MatSelectModule,
     DatePipe,
-    MatDatepickerModule
+    MatDatepickerModule,
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive
   ],
   providers: [
     provideNativeDateAdapter(),
@@ -38,6 +42,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrl: './appointment-list.component.scss'
 })
 export class AppointmentListComponent implements OnInit, OnDestroy {
+  @Input() filter?: string | null = null;
   appointments: Appointment[] = new Array<Appointment>();
   appointmentServiceSubscription?: Subscription;
   displayedColumns: string[] = ['name', 'case', 'date', 'action'];
@@ -52,11 +57,22 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
     date: new FormControl(new Date()),
   })
 
-  constructor(private appointmentService: AppointmentService, private caseService: CaseService, private snackBar: MatSnackBar) { }
+  constructor(
+    private appointmentService: AppointmentService,
+    private caseService: CaseService,
+    private snackBar: MatSnackBar,
+  ) { }
   ngOnInit(): void {
-    this.appointmentServiceSubscription = this.appointmentService.getAllAppointments().subscribe((appointments) => {
-      this.appointments = appointments;
-    });
+    if (this.filter){
+      this.appointmentServiceSubscription = this.appointmentService.getAppointmentsByUserID(this.filter).subscribe((appointments) => {
+        this.appointments = appointments;
+      });
+    }
+    else{      
+      this.appointmentServiceSubscription = this.appointmentService.getAllAppointments().subscribe((appointments) => {
+        this.appointments = appointments;
+      });
+    }
     this.caseSubscriptions = this.caseService.getAllCases().subscribe((cases) => {
       this.cases = cases;
     });

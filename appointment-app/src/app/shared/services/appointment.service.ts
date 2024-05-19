@@ -16,10 +16,14 @@ export class AppointmentService {
   }
 
   getAllAppointments(): Observable<Appointment[]> {
-    return this.fireStore.collection<Appointment>('Appointments').valueChanges();
+    return this.fireStore.collection<Appointment>('Appointments', ref => ref.orderBy('date', 'asc')).valueChanges();
   }
 
   deleteAppointmentByID(id: string){
     return this.fireStore.collection<Appointment>('Appointments').doc(id).delete();
+  }
+
+  getAppointmentsByUserID(userID: string){
+    return this.fireStore.collection<Appointment>('Appointments', ref => ref.where('userID', '==', userID).orderBy('name', 'asc')).valueChanges();
   }
 }
