@@ -19,6 +19,41 @@
     justify-content: space-between;
 }
 
+.card-action{
+    display: flex;
+    flex-direction: row;
+}
+
 .action-button{
     margin: 5px;
+}
+
+@media screen and (max-width: 1700px) {
+    .form-container{
+        width: 30%;
+    }
+}
+
+@media screen and (max-width: 1230px) {
+    .card-action{
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .form-container{
+        width: 40%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .form-container{
+        width: 60%;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .form-container{
+        width: 80%;
+    }
 }

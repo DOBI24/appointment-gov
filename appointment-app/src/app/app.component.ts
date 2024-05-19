@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 import { User } from './shared/model/user';
 import { UserService } from './shared/services/user.service';
 import { CookieService } from 'ngx-cookie-service';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
     selector: 'app-root',
@@ -33,17 +34,16 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class AppComponent implements OnInit, OnDestroy{
   title = 'appointment-app';
-  open: boolean = false;
-  toggleButtonLeft = this.open ? "11.5vw" : "2vw";
-  sidenavWidth = "13vw";
   user?: User | null;
   userSubscription: Subscription;
+  isMobile: boolean = false;
 
   constructor(
     private auth: AuthService,
     private userService: UserService,
     private cookieService: CookieService,
     private router: Router,
+    private observer: BreakpointObserver,
   ){}
 
   ngOnInit(): void {
@@ -55,6 +55,13 @@ export class AppComponent implements OnInit, OnDestroy{
         this.auth.user = null;
         this.user = null;
         this.cookieService.delete("user");
+      }
+    });
+    this.observer.observe(['(max-width: 800px)']).subscribe((screenSize) => {
+      if(screenSize.matches){
+        this.isMobile = true;
+      } else {
+        this.isMobile = false;
       }
     });
   }

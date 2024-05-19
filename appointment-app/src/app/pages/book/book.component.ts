@@ -16,6 +16,7 @@ import { Timestamp } from '@angular/fire/firestore';
 import { AppointmentService } from '../../shared/services/appointment.service';
 import { AuthService } from '../../shared/services/auth.service';
 import { ActivatedRoute } from '@angular/router';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 
 @Component({
@@ -40,8 +41,10 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class BookComponent implements OnInit, OnDestroy{
   cases: Case[];
-  caseSubscriptions: Subscription;
+  caseSubscriptions?: Subscription;
+  observerSubscriptions?: Subscription;
 
+  isMobile: boolean = false;
   basicFormGroup = new FormGroup({
     name : new FormControl('', [Validators.required, Validators.pattern("[A-ZÁÉÚŐÓÜÖÍa-záéúőóüöí]+ [A-ZÁÉÚŐÓÜÖÍa-záéúőóüöí ]+")]),
     case : new FormControl('', [Validators.required])
@@ -52,16 +55,26 @@ export class BookComponent implements OnInit, OnDestroy{
     private caseService: CaseService,
     private appointmentService: AppointmentService,
     private authService: AuthService,
+    private observer: BreakpointObserver,
     ) {}
 
   ngOnInit(): void {
     this.caseSubscriptions = this.caseService.getAllCases().subscribe((cases) => {
       this.cases = cases;
-    });    
+    });
+    this.observer.observe(['(max-width: 800px)']).subscribe((screenSize) => {
+      if(screenSize.matches){
+        this.isMobile = true;
+        
+      } else {
+        this.isMobile = false;
+      }
+    });
   }
 
   ngOnDestroy(): void {
-    this.caseSubscriptions.unsubscribe();
+    this.caseSubscriptions?.unsubscribe();
+    this.observerSubscriptions?.unsubscribe();
   }
 
   bookAppointment() {

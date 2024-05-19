@@ -1,20 +1,24 @@
 <div class="main-container">
     <mat-sidenav-container class="sidenav-container">
-        <mat-sidenav #sidenav mode="side" disableClose="true" opened="true" class="sidenav-list">
+        <mat-sidenav #sidenav [mode]="isMobile ? 'over' : 'side'" [opened]="isMobile ? 'false' : 'true'" class="sidenav-list">
             <div class="navbar">
                 <app-navbar [user] = "user"></app-navbar>
             </div>
-            <button mat-icon-button (click)="open = !open" class="toggle-button" [ngStyle]="{'position': toggleButtonLeft}">
-                @if (open) {
-                    <mat-icon>arrow_back_ios</mat-icon>
+        </mat-sidenav>
+        <mat-sidenav-content class="sidenav-content">
+            <button mat-icon-button class="toggle-button" (click)="sidenav.toggle()">
+                @if (isMobile) {
+                    <mat-icon>menu</mat-icon>
                 }
                 @else {
-                    <mat-icon>arrow_forward_ios</mat-icon>
+                    @if (sidenav.opened) {
+                        <mat-icon>arrow_back_ios</mat-icon>
+                    }
+                    @else {
+                        <mat-icon>arrow_forward_ios</mat-icon>
+                    }
                 }
             </button>
-        </mat-sidenav>
-    
-        <mat-sidenav-content class="sidenav-content">
             <router-outlet />
             <!-- <div>
                 <app-footer></app-footer>

@@ -13,6 +13,7 @@
 .input-container{
     display: flex;
     justify-content: space-between;
+    flex-direction: row;
 }
 
 #input-name{
@@ -21,4 +22,17 @@
 
 #input-case{
     width: 65%;
+}
+
+@media screen and (max-width: 1200px) {
+    .input-container{
+        flex-direction: column;
+    }
+    #input-name{
+        width: 100%;
+    }
+    
+    #input-case{
+        width: 100%;
+    }
 }

@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { Timestamp } from 'firebase/firestore'
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 
 @Component({
@@ -42,8 +43,14 @@ export class CalendarComponent implements OnInit, OnDestroy {
   // appointments: Map<string, Array<string>> = new Map();
   appointments: Map<string, Array<string>> = new Map();
   appointmentSubscription: Subscription;
+  observerSubscriptions?: Subscription;
+  isMobile: boolean = false;
+  lambda: number = 20;
 
-  constructor(private appointmentService: AppointmentService) { }
+  constructor(
+    private appointmentService: AppointmentService,
+    private observer: BreakpointObserver,
+  ) { }
 
   ngOnInit(): void {
     this.days = new Array(14);
@@ -63,20 +70,29 @@ export class CalendarComponent implements OnInit, OnDestroy {
         );
       });
     });
+
+    this.observer.observe(['(max-width: 1800px)']).subscribe((screenSize) => {
+      // if(screenSize.matches){
+      //   this.lambda = 25;
+        
+      // } else {
+      //   this.lambda = 20;
+      // }
+    });
   }
 
   ngOnDestroy(): void {
     this.appointmentSubscription.unsubscribe();
-
+    this.observerSubscriptions?.unsubscribe();
   }
 
   moveSlider(direction: string) {
     switch (direction) {
       case "left":
-        this.transformX += 20;
+        this.transformX += this.lambda;
         break;
       case "right":
-        this.transformX -= 20;
+        this.transformX -= this.lambda;
         break;
       default:
         break;
