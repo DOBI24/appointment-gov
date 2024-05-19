@@ -10,7 +10,6 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { AuthService } from '../../shared/services/auth.service';
 import { UserService } from '../../shared/services/user.service';
 import { Router } from '@angular/router';
-import { Case } from '../../shared/model/case';
 
 export class ErrorMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | null): boolean {
