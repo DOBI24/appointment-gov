@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { FooterComponent } from "./shared/components/footer/footer.component";
 import { NavbarComponent } from "./shared/components/navbar/navbar.component";
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -12,6 +12,7 @@ import { CalendarComponent } from './shared/components/calendar/calendar.compone
 import { Subscription } from 'rxjs';
 import { User } from './shared/model/user';
 import { UserService } from './shared/services/user.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
     selector: 'app-root',
@@ -38,7 +39,12 @@ export class AppComponent implements OnInit, OnDestroy{
   user?: User | null;
   userSubscription: Subscription;
 
-  constructor(private auth: AuthService, private userService: UserService){}
+  constructor(
+    private auth: AuthService,
+    private userService: UserService,
+    private cookieService: CookieService,
+    private router: Router,
+  ){}
 
   ngOnInit(): void {
     this.userSubscription = this.auth.loggedInUser().subscribe({
@@ -48,6 +54,7 @@ export class AppComponent implements OnInit, OnDestroy{
       error: err => {
         this.auth.user = null;
         this.user = null;
+        this.cookieService.delete("user");
       }
     });
   }
@@ -58,7 +65,8 @@ export class AppComponent implements OnInit, OnDestroy{
   createUserModel(user: firebase.default.User | null) {
     if (user == null){
       this.user = null;
-      this.auth.user = null;  
+      this.auth.user = null;
+      this.cookieService.delete("user");
       return;
     }
 
@@ -70,15 +78,16 @@ export class AppComponent implements OnInit, OnDestroy{
           email: user.get("email"),
           role: user.get("role")
         }
+        this.cookieService.set("user", tempUser.id);
         this.user = tempUser;
-        this.auth.user = tempUser;  
+        this.auth.user = tempUser;
         modelSub.unsubscribe();
       },
       error: err => {
         this.user = null;
         modelSub.unsubscribe();
       }
-    })
+    });
   }
 }
 
