@@ -1,4 +1,4 @@
-# appointment-gov
+# Okmányirodai ügyintézés időpontfoglaló oldal
 
 | Elem | Útvonal | Állapot |
 |------|---------|------------|
@@ -7,11 +7,11 @@
 | Firebase Hosting URL (létezik, és minden végpont megfelelő módon betöltődik) | https://dobi-appointment-app.web.app | :heavy_check_mark: |
 | Adatmodell definiálása | [models] | :heavy_check_mark: |
 | Alkalmazás felbontása megfelelő számú komponensre | - | :heavy_check_mark: |
-| Reszponzív, mobile-first felület | - | Böngésző - :heavy_check_mark: Mobil - :x: |
+| Reszponzív, mobile-first felület | - | :heavy_check_mark: |
 | Legalább 2 különböző attribútum direktíva használata | [ngStyle], [ngClass] | :heavy_check_mark: |
 | Legalább 2 különböző strukturális direktíva használata | [ngFor], [ngIf] | :heavy_check_mark: |
 | Adatátadás szülő és gyermek komponensek között | [Input], [Output] | :heavy_check_mark: |
-| Legalább 10 különböző Material elem helyes használata | [Button], [Card], [FormField], [Icon], [Input], [Select], [Sidenav], [Snackbar], [Stepper], [Table], [Tabs] | :heavy_check_mark: (11 db) |
+| Legalább 10 különböző Material elem helyes használata | [Button], [Card], [FormField], [Icon], [Input], [Select], [Sidenav], [Snackbar], [Stepper], [Table], [Tabs] (11 db) | :heavy_check_mark: |
 | Adatbevitel Angular form-ok segítségével megvalósítva (legalább 2) | [Form1], [Form2] | :heavy_check_mark: |
 | Legalább 1 saját Pipe osztály írása és használata | [Pipe], [PipeUse] | :heavy_check_mark: |
 | Legalább 2 különböző Lifecycle Hook használata a teljes projektben | [ngOnInit], [ngOnDestroy] | :heavy_check_mark: |
