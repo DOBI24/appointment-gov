@@ -14,6 +14,8 @@ import { CalendarComponent } from "../../shared/components/calendar/calendar.com
 import { Subscription } from 'rxjs';
 import { Timestamp } from '@angular/fire/firestore';
 import { AppointmentService } from '../../shared/services/appointment.service';
+import { AuthService } from '../../shared/services/auth.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -46,12 +48,16 @@ export class BookComponent implements OnInit, OnDestroy{
   });
   selectedTimestamp: Timestamp | null = null;
 
-  constructor(private caseService: CaseService, private appointmentService: AppointmentService) {}
+  constructor(
+    private caseService: CaseService,
+    private appointmentService: AppointmentService,
+    private authService: AuthService,
+    ) {}
 
   ngOnInit(): void {
     this.caseSubscriptions = this.caseService.getAllCases().subscribe((cases) => {
       this.cases = cases;
-    });
+    });    
   }
 
   ngOnDestroy(): void {
@@ -64,7 +70,8 @@ export class BookComponent implements OnInit, OnDestroy{
     const appointment = {
       name: this.basicFormGroup.value.name as string,
       case: this.basicFormGroup.value.case as string,
-      date: this.selectedTimestamp
+      date: this.selectedTimestamp,
+      userID: this.authService.user?.id as string
     };
     this.appointmentService.insertAppointment(appointment).then(_ => {
       this.selectedTimestamp = null;
@@ -73,9 +80,7 @@ export class BookComponent implements OnInit, OnDestroy{
     })
   }
 
-  changeSelectedTimestamp(selectedTimestamp: Timestamp) {
-    console.log("torol");
-    
+  changeSelectedTimestamp(selectedTimestamp: Timestamp) {    
     this.selectedTimestamp = selectedTimestamp;
   }
 }
