@@ -11,6 +11,6 @@ export class CaseService {
   constructor(private fireStore: AngularFirestore) { }
 
   getAllCases(): Observable<Case[]> {
-    return this.fireStore.collection<Case>('Cases').valueChanges();
+    return this.fireStore.collection<Case>('Cases', ref => ref.orderBy('name', 'asc')).valueChanges();
   }
 }
