@@ -19,4 +19,7 @@ export class AppointmentService {
     return this.fireStore.collection<Appointment>('Appointments').valueChanges();
   }
 
+  deleteAppointmentByID(id: string){
+    return this.fireStore.collection<Appointment>('Appointments').doc(id).delete();
+  }
 }
