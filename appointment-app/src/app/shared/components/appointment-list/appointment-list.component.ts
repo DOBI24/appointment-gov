@@ -83,28 +83,11 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
     this.caseSubscriptions.unsubscribe();
   }
 
-  edit(appointment: Appointment) {
-    if (this.editedAppointment) this.exitEdit();
-
-    this.editedAppointment = appointment;
-    this.editedAppointmentFormGroup.get('name')?.setValue(appointment.name);
-    this.editedAppointmentFormGroup.get('case')?.setValue(appointment.case);
-    this.editedAppointmentFormGroup.get('date')?.setValue(appointment.date.toDate());
-  }
-
   deleteAppointment(appointment: Appointment) {
     this.appointmentService.deleteAppointmentByID(appointment.id as string).then(_ => {
-      this.snackBar.open('Sikeres törlés', 'Undo',{
+      this.snackBar.open('Sikeres törlés', 'Elfogad',{
         duration: 3000
       });
     });
-  }
-
-  save(appointment: Appointment) {
-    throw new Error('Method not implemented.');
-  }
-
-  exitEdit() {
-    this.editedAppointment = undefined;
   }
 }

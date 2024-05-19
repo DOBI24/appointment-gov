@@ -15,8 +15,8 @@ import { Subscription } from 'rxjs';
 import { Timestamp } from '@angular/fire/firestore';
 import { AppointmentService } from '../../shared/services/appointment.service';
 import { AuthService } from '../../shared/services/auth.service';
-import { ActivatedRoute } from '@angular/router';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -56,9 +56,11 @@ export class BookComponent implements OnInit, OnDestroy{
     private appointmentService: AppointmentService,
     private authService: AuthService,
     private observer: BreakpointObserver,
+    private snackBar: MatSnackBar,
     ) {}
 
   ngOnInit(): void {
+    this.basicFormGroup.get('name')?.setValue(this.authService.user?.fullName as string);
     this.caseSubscriptions = this.caseService.getAllCases().subscribe((cases) => {
       this.cases = cases;
     });
@@ -78,7 +80,12 @@ export class BookComponent implements OnInit, OnDestroy{
   }
 
   bookAppointment() {
-    if (this.basicFormGroup.invalid || this.selectedTimestamp == null) return;
+    if (this.basicFormGroup.invalid || this.selectedTimestamp == null){
+      this.snackBar.open('Tölts ki minden mezőt', 'Elfogad',{
+        duration: 3000
+      });
+      return;
+    }
 
     const appointment = {
       name: this.basicFormGroup.value.name as string,
@@ -88,6 +95,9 @@ export class BookComponent implements OnInit, OnDestroy{
     };
     this.appointmentService.insertAppointment(appointment).then(_ => {
       this.selectedTimestamp = null;
+      this.snackBar.open('Sikeres foglalás', 'Elfogad',{
+        duration: 3000
+      });
     }).catch(err => {
       console.log(err);
     })

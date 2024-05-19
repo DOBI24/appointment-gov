@@ -66,7 +66,7 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   deleteUser(user: User) {
     this.userService.deleteUserByID(user.id).then(_ => {
-      this.snackBar.open('Sikeres törlés', 'Undo',{
+      this.snackBar.open('Sikeres törlés', 'Elfogad',{
         duration: 3000
       });
     });
@@ -90,7 +90,7 @@ export class UserListComponent implements OnInit, OnDestroy {
     user.role = this.editedUserFormGroup.get('role')?.value as string;
 
     this.userService.updateUserByID(user.id, user).then(() => {
-      this.snackBar.open('Sikeres frissítés', 'Undo',{
+      this.snackBar.open('Sikeres frissítés', 'Elfogad',{
         duration: 3000
       });
     })
