@@ -1,5 +1,9 @@
 # Okmányirodai ügyintézés időpontfoglaló oldal
 
+## ADMIN FELHASZNÁLÓ:
+- email: admin@admin.com
+- jelszó: adminadmin
+
 | Elem | Útvonal | Állapot |
 |------|---------|------------|
 | Fordítási hiba nincs (ng serve kiadásakor nincs hiba) | - | :heavy_check_mark: |
