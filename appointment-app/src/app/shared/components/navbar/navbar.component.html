@@ -8,15 +8,17 @@
         }
         <mat-icon matListItemIcon>home</mat-icon>
     </mat-list-item>
-    <mat-list-item routerLink="/login" routerLinkActive="active" ariaCurrentWhenActive="page">
-        @if(true){
-            <span matListItemTitle>Bejelentkezés</span>
-        }
-        @else{
-            
-        }
-        <mat-icon matListItemIcon>login</mat-icon>
-    </mat-list-item>
+    @if (!this.user) {
+        <mat-list-item routerLink="/login" routerLinkActive="active" ariaCurrentWhenActive="page">
+            @if(true){
+                <span matListItemTitle>Bejelentkezés</span>
+            }
+            @else{
+                
+            }
+            <mat-icon matListItemIcon>login</mat-icon>
+        </mat-list-item>
+    }
     @if(this.user){
         <mat-list-item routerLink="/book" routerLinkActive="active" ariaCurrentWhenActive="page">
             @if(true){
@@ -27,7 +29,7 @@
             }
             <mat-icon matListItemIcon>book_online</mat-icon>
         </mat-list-item>
-        @if (this.user) {
+        @if (this.user.role === 'admin') {
             <mat-list-item routerLink="/admin" routerLinkActive="active" ariaCurrentWhenActive="page">
                 @if(true){
                     <span matListItemTitle>Ügyintézéss</span>
