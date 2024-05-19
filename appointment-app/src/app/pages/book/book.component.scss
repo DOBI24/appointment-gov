@@ -1,0 +1,24 @@
+.main-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.stepper-container{
+    width: 50%;
+}
+
+.input-container{
+    display: flex;
+    justify-content: space-between;
+}
+
+#input-name{
+    width: 30%;
+}
+
+#input-case{
+    width: 65%;
+}
