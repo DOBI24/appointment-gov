@@ -21,4 +21,12 @@ export class UserService {
   getUserByID(id: string){
     return this.fireStore.collection<User>('Users').doc(id).get();
   }
+
+  updateUserByID(id: string, user: User){
+    return this.fireStore.collection<User>('Users').doc(id).update(user);
+  }
+
+  deleteUserByID(id: string){
+    return this.fireStore.collection<User>('Users').doc(id).delete();
+  }
 }

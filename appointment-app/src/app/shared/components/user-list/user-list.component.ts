@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 
 @Component({
@@ -39,7 +40,7 @@ export class UserListComponent implements OnInit, OnDestroy {
     role: new FormControl(''),
   });
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.userServiceSubscription = this.userService.getAllUser().subscribe((users) => {
@@ -60,17 +61,36 @@ export class UserListComponent implements OnInit, OnDestroy {
   }
 
   deleteUser(user: User) {
-    throw new Error('Method not implemented.');
+    this.userService.deleteUserByID(user.id).then(_ => {
+      this.snackBar.open('Sikeres törlés', 'Undo',{
+        duration: 3000
+      });
+    });
   }
 
   save(user: User) {
     if (
-      user.fullName === this.editedUserFormGroup.get('fullName')?.value &&
-      user.email === this.editedUserFormGroup.get('email')?.value &&
-      user.role === this.editedUserFormGroup.get('role')?.value
+      user.fullName == this.editedUserFormGroup.get('fullName')?.value&&
+      user.email == this.editedUserFormGroup.get('email')?.value &&
+      user.role == this.editedUserFormGroup.get('role')?.value
     ) {
       this.exitEdit();
+      return;
     }
+    if(this.editedUserFormGroup.invalid){
+      return;
+    }
+
+    user.fullName = this.editedUserFormGroup.get('fullName')?.value as string;
+    user.email = this.editedUserFormGroup.get('email')?.value as string;
+    user.role = this.editedUserFormGroup.get('role')?.value as string;
+
+    this.userService.updateUserByID(user.id, user).then(() => {
+      this.snackBar.open('Sikeres frissítés', 'Undo',{
+        duration: 3000
+      });
+    })
+    this.exitEdit();
   }
 
   exitEdit() {
