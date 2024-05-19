@@ -1,20 +1,11 @@
 import { Component } from '@angular/core';
-import { ReactiveFormsModule, FormsModule, Validators, FormControl, FormGroupDirective, FormGroup } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule, Validators, FormControl, FormGroup } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
-
-
-export class ErrorMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | null): boolean {
-    const isSubmitted = form?.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
 
 @Component({
   selector: 'app-login',
