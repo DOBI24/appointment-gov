@@ -9,7 +9,7 @@
                 </mat-form-field>
             }
             @else {
-                {{element.fullName}}
+                <a routerLink="/admin/books/{{element.id}}" routerLinkActive="active" ariaCurrentWhenActive="page">{{element.fullName}}</a>
             }
         </td>
     </ng-container>

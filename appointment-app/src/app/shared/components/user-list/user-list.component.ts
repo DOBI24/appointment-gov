@@ -10,6 +10,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 
 
 @Component({
@@ -22,7 +23,10 @@ import {MatSnackBar} from '@angular/material/snack-bar';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatButtonModule
+    MatButtonModule,
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive
   ],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss'
