@@ -14,6 +14,10 @@ export class UserService {
     return this.fireStore.collection<User>('Users').doc(user.id).set(user);
   }
 
+  getAllUser(): Observable<User[]>{
+    return this.fireStore.collection<User>('Users').valueChanges();
+  }
+
   getUserByID(id: string){
     return this.fireStore.collection<User>('Users').doc(id).get();
   }

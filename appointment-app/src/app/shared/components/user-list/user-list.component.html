@@ -1,0 +1,78 @@
+<table mat-table [dataSource]="this.users">
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Név </th>
+        <td mat-cell *matCellDef="let element"> 
+            @if (editedUser === element) {
+                <mat-form-field [formGroup]="editedUserFormGroup">
+                    <mat-label>Teljes név</mat-label>
+                    <input matInput type="text" formControlName="fullName" [value]="element.fullName">
+                </mat-form-field>
+            }
+            @else {
+                {{element.fullName}}
+            }
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> E-mail </th>
+        <td mat-cell *matCellDef="let element">
+            @if (editedUser === element) {
+                <mat-form-field [formGroup]="editedUserFormGroup">
+                    <mat-label>E-mail cím</mat-label>
+                    <input matInput type="email" formControlName="email" [value]="element.email">
+                </mat-form-field>
+            }
+            @else {
+                {{element.email}}
+            }
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef> Jogosultság </th>
+        <td mat-cell *matCellDef="let element">
+            @if (editedUser === element) {
+                <mat-form-field [formGroup]="editedUserFormGroup">
+                    <mat-label>Jogosultság</mat-label>
+                    <mat-select formControlName="role" [value]="element.role">
+                        @for (role of roles; track $index) {
+                            <mat-option [value]="role">
+                                {{role}}
+                            </mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            }
+            @else {
+                {{element.role}}
+            }
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Szerkesztés </th>
+        <td mat-cell *matCellDef="let element">
+            @if (editedUser === element){
+                <button mat-mini-fab (click)="save(element)" aria-label="save-edit">
+                    <mat-icon>save</mat-icon>
+                </button>
+                <button mat-mini-fab (click)="exitEdit()" aria-label="close-edit">
+                    <mat-icon>close</mat-icon>
+                </button>
+            }
+            @else {
+                <button mat-mini-fab (click)="edit(element)" aria-label="edit">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-mini-fab (click)="deleteUser(element)" aria-label="delete-user">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            }
+
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
