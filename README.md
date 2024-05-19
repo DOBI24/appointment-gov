@@ -4,7 +4,7 @@
 |------|---------|------------|
 | Fordítási hiba nincs (ng serve kiadásakor nincs hiba) | - | :heavy_check_mark: |
 | Futtatási hiba nincs (böngésző konzol részében nincs hiba)| - | :heavy_check_mark: |
-| Firebase Hosting URL (létezik, és minden végpont megfelelő módon betöltődik) | - | :x: |
+| Firebase Hosting URL (létezik, és minden végpont megfelelő módon betöltődik) | https://dobi-appointment-app.web.app | :heavy_check_mark: |
 | Adatmodell definiálása | [models] | :heavy_check_mark: |
 | Alkalmazás felbontása megfelelő számú komponensre | - | :heavy_check_mark: |
 | Reszponzív, mobile-first felület | - | Böngésző - :heavy_check_mark: Mobil - :x: |
