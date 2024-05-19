@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
+import { ErrorMatcher } from '../../shared/model/error-matcher';
 
 @Component({
   selector: 'app-login',
