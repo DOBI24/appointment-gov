@@ -10,6 +10,7 @@ import { AuthService } from '../../shared/services/auth.service';
 import { UserService } from '../../shared/services/user.service';
 import { Router } from '@angular/router';
 import { ErrorMatcher } from '../../shared/model/error-matcher';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -31,19 +32,19 @@ export class RegisterComponent {
   emailError = new ErrorMatcher();
   passwordError = new ErrorMatcher();
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private location : Location,
-    private auth : AuthService,
-    private userService: UserService,
-    private router : Router,
-  ) {}
-
   registerForm = new FormGroup({
-    fullName : new FormControl('', [Validators.required, Validators.pattern("[A-ZÁÉÚŐÓÜÖÍa-záéúőóüöí]+ [A-ZÁÉÚŐÓÜÖÍa-záéúőóüöí ]+")]),
-    email : new FormControl('', [Validators.required, Validators.email]),
-    password : new FormControl('', [Validators.required, Validators.minLength(8)]),
+    fullName: new FormControl('', [Validators.required, Validators.pattern("[A-ZÁÉÚŐÓÜÖÍa-záéúőóüöí]+ [A-ZÁÉÚŐÓÜÖÍa-záéúőóüöí ]+")]),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required, Validators.minLength(8)]),
   })
+
+  constructor(
+    private location: Location,
+    private auth: AuthService,
+    private userService: UserService,
+    private router: Router,
+    private snackBar: MatSnackBar,
+  ) { }
 
   register() {
     if (this.registerForm.invalid) return;
@@ -61,7 +62,9 @@ export class RegisterComponent {
         });
 
       }).catch(err => {
-        console.log(err);
+        this.snackBar.open('Hibás adatok', 'Elfogad', {
+          duration: 3000
+        });
       });
 
   }

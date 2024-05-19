@@ -11,22 +11,16 @@ import { Subscription } from 'rxjs';
   templateUrl: './books.component.html',
   styleUrl: './books.component.scss'
 })
-export class BooksComponent implements OnInit, OnDestroy{
-  filter: string | null = null;
+export class BooksComponent implements OnInit, OnDestroy {
   routeSubscriptions?: Subscription;
+  filter: string | null = null;
 
-  constructor(private route: ActivatedRoute) {}
-
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.routeSubscriptions = this.route.params.subscribe(params => {
       this.filter = params['id'];
-      console.log(this.filter);
-      
     });
-    
-    // this.filter = 
-    // throw new Error('Method not implemented.');
   }
 
   ngOnDestroy(): void {

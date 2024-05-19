@@ -27,6 +27,10 @@ import { BreakpointObserver } from '@angular/cdk/layout';
   ]
 })
 export class CalendarComponent implements OnInit, OnDestroy {
+  @Output() selectedTimestamp: EventEmitter<Timestamp> = new EventEmitter();
+  appointmentSubscription?: Subscription;
+  observerSubscriptions?: Subscription;
+
   times: Array<string> = [
     "8:0",
     "8:30",
@@ -35,15 +39,10 @@ export class CalendarComponent implements OnInit, OnDestroy {
     "10:0",
     "10:30",
   ];
-  days: Array<Date>;
-  transformX: number = 0;
-  selectedDay: string | null = null;
-  @Output() selectedTimestamp: EventEmitter<Timestamp> = new EventEmitter();
-
-  // appointments: Map<string, Array<string>> = new Map();
+  days?: Array<Date>;
   appointments: Map<string, Array<string>> = new Map();
-  appointmentSubscription: Subscription;
-  observerSubscriptions?: Subscription;
+  selectedDay: string | null = null;
+  transformX: number = 0;
   isMobile: boolean = false;
   lambda: number = 20;
 
@@ -72,17 +71,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
     });
 
     this.observer.observe(['(max-width: 1800px)']).subscribe((screenSize) => {
-      // if(screenSize.matches){
-      //   this.lambda = 25;
-        
-      // } else {
-      //   this.lambda = 20;
-      // }
     });
   }
 
   ngOnDestroy(): void {
-    this.appointmentSubscription.unsubscribe();
+    this.appointmentSubscription?.unsubscribe();
     this.observerSubscriptions?.unsubscribe();
   }
 
@@ -101,7 +94,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   selectDate(selectedDay: any, selectedTime: string) {
     this.selectedDay = selectedDay + "-" + selectedTime;
-
     this.selectedTimestamp.emit(Timestamp.fromDate(new Date(this.selectedDay)));
   }
 }

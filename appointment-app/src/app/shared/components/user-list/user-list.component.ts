@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 
 
@@ -32,8 +32,9 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './user-list.component.scss'
 })
 export class UserListComponent implements OnInit, OnDestroy {
-  users: User[] = new Array<User>();
   userServiceSubscription?: Subscription;
+
+  users: User[] = new Array<User>();
   displayedColumns: string[] = ['name', 'email', 'role', 'action'];
   roles = ['admin', 'user'];
   editedUser?: User;
@@ -44,7 +45,10 @@ export class UserListComponent implements OnInit, OnDestroy {
     role: new FormControl(''),
   });
 
-  constructor(private userService: UserService, private snackBar: MatSnackBar) { }
+  constructor(
+    private userService: UserService,
+    private snackBar: MatSnackBar
+  ) { }
 
   ngOnInit() {
     this.userServiceSubscription = this.userService.getAllUser().subscribe((users) => {
@@ -66,7 +70,7 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   deleteUser(user: User) {
     this.userService.deleteUserByID(user.id).then(_ => {
-      this.snackBar.open('Sikeres törlés', 'Elfogad',{
+      this.snackBar.open('Sikeres törlés', 'Elfogad', {
         duration: 3000
       });
     });
@@ -74,14 +78,14 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   save(user: User) {
     if (
-      user.fullName == this.editedUserFormGroup.get('fullName')?.value&&
+      user.fullName == this.editedUserFormGroup.get('fullName')?.value &&
       user.email == this.editedUserFormGroup.get('email')?.value &&
       user.role == this.editedUserFormGroup.get('role')?.value
     ) {
       this.exitEdit();
       return;
     }
-    if(this.editedUserFormGroup.invalid){
+    if (this.editedUserFormGroup.invalid) {
       return;
     }
 
@@ -90,7 +94,7 @@ export class UserListComponent implements OnInit, OnDestroy {
     user.role = this.editedUserFormGroup.get('role')?.value as string;
 
     this.userService.updateUserByID(user.id, user).then(() => {
-      this.snackBar.open('Sikeres frissítés', 'Elfogad',{
+      this.snackBar.open('Sikeres frissítés', 'Elfogad', {
         duration: 3000
       });
     })

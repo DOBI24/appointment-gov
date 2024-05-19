@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
 import { ErrorMatcher } from '../../shared/model/error-matcher';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -25,22 +26,28 @@ import { ErrorMatcher } from '../../shared/model/error-matcher';
 export class LoginComponent {
   emailError = new ErrorMatcher();
   passwordError = new ErrorMatcher();
-  
-  constructor(private router : Router, private authService : AuthService) { }
 
   loginForm = new FormGroup({
-    email : new FormControl('', [Validators.required, Validators.email]),
-    password : new FormControl('', [Validators.required, Validators.minLength(8)]),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required, Validators.minLength(8)]),
   })
+
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private snackBar: MatSnackBar,
+  ) { }
 
   login() {
     if (this.loginForm.invalid) return;
-    
+
     this.authService.loginWithEmailPassword(this.loginForm.get("email")?.value as string, this.loginForm.get("password")?.value as string)
       .then((cred) => {
         this.router.navigateByUrl('/main');
       }).catch(err => {
-        console.log(err);
+        this.snackBar.open('Hibás e-mail vagy jelszó', 'Elfogad', {
+          duration: 3000
+        });
       })
   }
 

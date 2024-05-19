@@ -10,7 +10,7 @@ export class TimeFormatPipe implements PipeTransform {
     const hour = value.split(':')[0];
     const min = value.split(':')[1];
 
-    return (hour.length === 1? '0'+hour : hour) + 
-    ':' + (min.length === 1? '0'+min : min);
+    return (hour.length === 1 ? '0' + hour : hour) +
+      ':' + (min.length === 1 ? '0' + min : min);
   }
 }

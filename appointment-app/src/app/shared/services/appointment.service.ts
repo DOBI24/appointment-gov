@@ -10,7 +10,7 @@ export class AppointmentService {
 
   constructor(private fireStore: AngularFirestore) { }
 
-  insertAppointment(appointment: Appointment){
+  insertAppointment(appointment: Appointment) {
     appointment.id = this.fireStore.createId();
     return this.fireStore.collection<Appointment>('Appointments').doc(appointment.id).set(appointment);
   }
@@ -19,11 +19,11 @@ export class AppointmentService {
     return this.fireStore.collection<Appointment>('Appointments', ref => ref.orderBy('date', 'asc')).valueChanges();
   }
 
-  deleteAppointmentByID(id: string){
+  deleteAppointmentByID(id: string) {
     return this.fireStore.collection<Appointment>('Appointments').doc(id).delete();
   }
 
-  getAppointmentsByUserID(userID: string){
+  getAppointmentsByUserID(userID: string) {
     return this.fireStore.collection<Appointment>('Appointments', ref => ref.where('userID', '==', userID).orderBy('name', 'asc')).valueChanges();
   }
 }

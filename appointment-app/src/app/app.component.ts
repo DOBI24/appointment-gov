@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import { FooterComponent } from "./shared/components/footer/footer.component";
 import { NavbarComponent } from "./shared/components/navbar/navbar.component";
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,7 +7,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FlexLayoutServerModule } from '@angular/flex-layout/server';
 import { AuthService } from './shared/services/auth.service';
-import { CalendarComponent } from './shared/components/calendar/calendar.component';
 import { Subscription } from 'rxjs';
 import { User } from './shared/model/user';
 import { UserService } from './shared/services/user.service';
@@ -16,35 +14,33 @@ import { CookieService } from 'ngx-cookie-service';
 import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
-    selector: 'app-root',
-    standalone: true,
-    templateUrl: './app.component.html',
-    styleUrl: './app.component.scss',
-    imports: [
-        RouterOutlet,
-        FooterComponent,
-        NavbarComponent,
-        MatSidenavModule,
-        MatButtonModule,
-        MatIconModule,
-        FlexLayoutModule,
-        FlexLayoutServerModule,
-        CalendarComponent
-    ]
+  selector: 'app-root',
+  standalone: true,
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss',
+  imports: [
+    RouterOutlet,
+    NavbarComponent,
+    MatSidenavModule,
+    MatButtonModule,
+    MatIconModule,
+    FlexLayoutModule,
+    FlexLayoutServerModule,
+  ]
 })
-export class AppComponent implements OnInit, OnDestroy{
+export class AppComponent implements OnInit, OnDestroy {
   title = 'appointment-app';
+
+  userSubscription?: Subscription;
   user?: User | null;
-  userSubscription: Subscription;
   isMobile: boolean = false;
 
   constructor(
     private auth: AuthService,
     private userService: UserService,
     private cookieService: CookieService,
-    private router: Router,
     private observer: BreakpointObserver,
-  ){}
+  ) { }
 
   ngOnInit(): void {
     this.userSubscription = this.auth.loggedInUser().subscribe({
@@ -58,7 +54,7 @@ export class AppComponent implements OnInit, OnDestroy{
       }
     });
     this.observer.observe(['(max-width: 800px)']).subscribe((screenSize) => {
-      if(screenSize.matches){
+      if (screenSize.matches) {
         this.isMobile = true;
       } else {
         this.isMobile = false;
@@ -66,11 +62,11 @@ export class AppComponent implements OnInit, OnDestroy{
     });
   }
   ngOnDestroy(): void {
-    this.userSubscription.unsubscribe();
+    this.userSubscription?.unsubscribe();
   }
-  
+
   createUserModel(user: firebase.default.User | null) {
-    if (user == null){
+    if (user == null) {
       this.user = null;
       this.auth.user = null;
       this.cookieService.delete("user");

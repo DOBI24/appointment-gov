@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { CaseService } from '../../shared/services/case.service';
 import { Case } from '../../shared/model/case';
 import { MatCardModule } from '@angular/material/card';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { CalendarComponent } from "../../shared/components/calendar/calendar.component";
 import { Subscription } from 'rxjs';
@@ -20,36 +20,35 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
-    selector: 'app-book',
-    standalone: true,
-    providers: [
-        provideNativeDateAdapter()
-    ],
-    templateUrl: './book.component.html',
-    styleUrl: './book.component.scss',
-    imports: [
-        MatStepperModule,
-        MatFormFieldModule,
-        ReactiveFormsModule,
-        MatInput,
-        MatSelectModule,
-        MatButtonModule,
-        MatCardModule,
-        MatDatepickerModule,
-        CalendarComponent
-    ]
+  selector: 'app-book',
+  standalone: true,
+  providers: [
+    provideNativeDateAdapter()
+  ],
+  templateUrl: './book.component.html',
+  styleUrl: './book.component.scss',
+  imports: [
+    MatStepperModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatInput,
+    MatSelectModule,
+    MatButtonModule,
+    MatCardModule,
+    MatDatepickerModule,
+    CalendarComponent
+  ]
 })
-export class BookComponent implements OnInit, OnDestroy{
-  cases: Case[];
+export class BookComponent implements OnInit, OnDestroy {
   caseSubscriptions?: Subscription;
   observerSubscriptions?: Subscription;
-
+  cases?: Case[];
   isMobile: boolean = false;
-  basicFormGroup = new FormGroup({
-    name : new FormControl('', [Validators.required, Validators.pattern("[A-ZÁÉÚŐÓÜÖÍa-záéúőóüöí]+ [A-ZÁÉÚŐÓÜÖÍa-záéúőóüöí ]+")]),
-    case : new FormControl('', [Validators.required])
-  });
   selectedTimestamp: Timestamp | null = null;
+  basicFormGroup = new FormGroup({
+    name: new FormControl('', [Validators.required, Validators.pattern("[A-ZÁÉÚŐÓÜÖÍa-záéúőóüöí]+ [A-ZÁÉÚŐÓÜÖÍa-záéúőóüöí ]+")]),
+    case: new FormControl('', [Validators.required])
+  });
 
   constructor(
     private caseService: CaseService,
@@ -57,7 +56,7 @@ export class BookComponent implements OnInit, OnDestroy{
     private authService: AuthService,
     private observer: BreakpointObserver,
     private snackBar: MatSnackBar,
-    ) {}
+  ) { }
 
   ngOnInit(): void {
     this.basicFormGroup.get('name')?.setValue(this.authService.user?.fullName as string);
@@ -65,9 +64,8 @@ export class BookComponent implements OnInit, OnDestroy{
       this.cases = cases;
     });
     this.observer.observe(['(max-width: 800px)']).subscribe((screenSize) => {
-      if(screenSize.matches){
+      if (screenSize.matches) {
         this.isMobile = true;
-        
       } else {
         this.isMobile = false;
       }
@@ -80,8 +78,8 @@ export class BookComponent implements OnInit, OnDestroy{
   }
 
   bookAppointment() {
-    if (this.basicFormGroup.invalid || this.selectedTimestamp == null){
-      this.snackBar.open('Tölts ki minden mezőt', 'Elfogad',{
+    if (this.basicFormGroup.invalid || this.selectedTimestamp == null) {
+      this.snackBar.open('Tölts ki minden mezőt', 'Elfogad', {
         duration: 3000
       });
       return;
@@ -95,15 +93,15 @@ export class BookComponent implements OnInit, OnDestroy{
     };
     this.appointmentService.insertAppointment(appointment).then(_ => {
       this.selectedTimestamp = null;
-      this.snackBar.open('Sikeres foglalás', 'Elfogad',{
+      this.snackBar.open('Sikeres foglalás', 'Elfogad', {
         duration: 3000
       });
     }).catch(err => {
-      console.log(err);
+      console.error(err);
     })
   }
 
-  changeSelectedTimestamp(selectedTimestamp: Timestamp) {    
+  changeSelectedTimestamp(selectedTimestamp: Timestamp) {
     this.selectedTimestamp = selectedTimestamp;
   }
 }

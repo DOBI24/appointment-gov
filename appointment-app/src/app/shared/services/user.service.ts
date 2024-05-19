@@ -14,19 +14,19 @@ export class UserService {
     return this.fireStore.collection<User>('Users').doc(user.id).set(user);
   }
 
-  getAllUser(): Observable<User[]>{
+  getAllUser(): Observable<User[]> {
     return this.fireStore.collection<User>('Users').valueChanges();
   }
 
-  getUserByID(id: string){
+  getUserByID(id: string) {
     return this.fireStore.collection<User>('Users').doc(id).get();
   }
 
-  updateUserByID(id: string, user: User){
+  updateUserByID(id: string, user: User) {
     return this.fireStore.collection<User>('Users').doc(id).update(user);
   }
 
-  deleteUserByID(id: string){
+  deleteUserByID(id: string) {
     return this.fireStore.collection<User>('Users').doc(id).delete();
   }
 }

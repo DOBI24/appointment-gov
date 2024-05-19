@@ -13,7 +13,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(),
     provideAnimationsAsync(),
-    importProvidersFrom(AngularFireModule.initializeApp({"projectId":"dobi-appointment-app","appId":"1:2110405123:web:545864240d59a984636c36","storageBucket":"dobi-appointment-app.appspot.com","apiKey":"AIzaSyDZiRRbCcCsXobYyVw5PlXLy1bGygU1a0g","authDomain":"dobi-appointment-app.firebaseapp.com","messagingSenderId":"2110405123","measurementId":"G-7PGX8FVCFF"})),
+    importProvidersFrom(AngularFireModule.initializeApp({ "projectId": "dobi-appointment-app", "appId": "1:2110405123:web:545864240d59a984636c36", "storageBucket": "dobi-appointment-app.appspot.com", "apiKey": "AIzaSyDZiRRbCcCsXobYyVw5PlXLy1bGygU1a0g", "authDomain": "dobi-appointment-app.firebaseapp.com", "messagingSenderId": "2110405123", "measurementId": "G-7PGX8FVCFF" })),
     importProvidersFrom(provideAuth(() => getAuth())),
     importProvidersFrom(provideFirestore(() => getFirestore())),
     importProvidersFrom(provideStorage(() => getStorage()))

@@ -1,4 +1,4 @@
-export interface Case{
-    name : string;
+export interface Case {
+    name: string;
     category: string;
 }

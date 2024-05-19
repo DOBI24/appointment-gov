@@ -10,23 +10,23 @@ export class AuthService {
 
   constructor(private auth: AngularFireAuth) { }
 
-  loginWithEmailPassword(email: string, password: string){
+  loginWithEmailPassword(email: string, password: string) {
     if (email === null || password === null) throw new Error('Null credentials');
 
     return this.auth.signInWithEmailAndPassword(email, password);
   }
 
-  register(email: string, password: string){
+  register(email: string, password: string) {
     if (email === null || password === null) throw new Error('Null credentials');
 
     return this.auth.createUserWithEmailAndPassword(email, password);
   }
 
-  logout(){
+  logout() {
     return this.auth.signOut();
   }
 
-  loggedInUser(){
+  loggedInUser() {
     return this.auth.user;
   }
 }

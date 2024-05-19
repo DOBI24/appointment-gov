@@ -10,7 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { DatePipe } from '@angular/common';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { Case } from '../../model/case';
 import { CaseService } from '../../services/case.service';
@@ -43,13 +43,14 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 })
 export class AppointmentListComponent implements OnInit, OnDestroy {
   @Input() filter?: string | null = null;
-  appointments: Appointment[] = new Array<Appointment>();
+
+  caseSubscriptions?: Subscription;
   appointmentServiceSubscription?: Subscription;
+
+  appointments: Appointment[] = new Array<Appointment>();
+  cases?: Case[];
   displayedColumns: string[] = ['name', 'case', 'date', 'action'];
   editedAppointment?: Appointment;
-  
-  cases: Case[];
-  caseSubscriptions: Subscription;
 
   editedAppointmentFormGroup = new FormGroup({
     name: new FormControl('', [Validators.pattern("[A-Za-z]+ [A-Za-z ]+")]),
@@ -62,13 +63,14 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
     private caseService: CaseService,
     private snackBar: MatSnackBar,
   ) { }
+
   ngOnInit(): void {
-    if (this.filter){
+    if (this.filter) {
       this.appointmentServiceSubscription = this.appointmentService.getAppointmentsByUserID(this.filter).subscribe((appointments) => {
         this.appointments = appointments;
       });
     }
-    else{      
+    else {
       this.appointmentServiceSubscription = this.appointmentService.getAllAppointments().subscribe((appointments) => {
         this.appointments = appointments;
       });
@@ -77,15 +79,15 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
       this.cases = cases;
     });
   }
-  
+
   ngOnDestroy(): void {
     this.appointmentServiceSubscription?.unsubscribe();
-    this.caseSubscriptions.unsubscribe();
+    this.caseSubscriptions?.unsubscribe();
   }
 
   deleteAppointment(appointment: Appointment) {
     this.appointmentService.deleteAppointmentByID(appointment.id as string).then(_ => {
-      this.snackBar.open('Sikeres törlés', 'Elfogad',{
+      this.snackBar.open('Sikeres törlés', 'Elfogad', {
         duration: 3000
       });
     });
