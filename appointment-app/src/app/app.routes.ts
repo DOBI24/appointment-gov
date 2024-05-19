@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './shared/services/auth.guard';
 import { adminGuard } from './shared/services/admin.guard';
+import { authBlockGuard } from './shared/services/auth-block.guard';
 
 export const routes: Routes = [
     {
@@ -9,11 +10,13 @@ export const routes: Routes = [
     },
     {
         path: 'login',
-        loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent)
+        loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent),
+        canActivate: [authBlockGuard]
     },
     {
         path:'register',
-        loadComponent: () => import('./pages/register/register.component').then(m => m.RegisterComponent)
+        loadComponent: () => import('./pages/register/register.component').then(m => m.RegisterComponent),
+        canActivate: [authBlockGuard]
     },
     {
         path: 'book',
