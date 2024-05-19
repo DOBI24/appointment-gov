@@ -46,7 +46,7 @@ export class LoginComponent {
     
     this.authService.loginWithEmailPassword(this.loginForm.get("email")?.value as string, this.loginForm.get("password")?.value as string)
       .then((cred) => {
-        console.log(cred);
+        this.router.navigateByUrl('/main');
       }).catch(err => {
         console.log(err);
       })
